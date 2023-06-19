@@ -4,7 +4,10 @@ import time
 import numpy as np
 
 from constructor import Constructor
+from heuristic import Heuristic
 from tools import Tools
+
+from data import CAR1
 
 
 class Model():
@@ -12,7 +15,7 @@ class Model():
         self.data = data
         self.tools = Tools()
         self.constructor = Constructor()
-        # self.heuristic = Heuristic()
+        self.heuristic = Heuristic()
 
     def GRASP(self):
         start_time = time.time()
@@ -20,20 +23,33 @@ class Model():
         df = self.data.dataframe
         num_machines = len(data.dataframe.columns)
         list_index = list(data.dataframe.index)
+        neighbors = self.heuristic.permutation_1t(list_index)
+        best_result = 1000000000000
 
-        
-        matrix = self.constructor.flow_shop_based_on_index_list(self,num_machines,df,list_index)
-        highest_finish = self.tools.evaluate(matrix)
+        while neighbors:
+            neighbor = neighbors.pop(0)
+            matrix = self.constructor.flow_shop_based_on_index_list(num_machines,df,neighbor)
+            highest_finish = self.tools.evaluate(matrix)
+            if highest_finish < best_result:
+                best_index = neighbor.copy()
+                print(neighbor)
+                best_result = highest_finish
+                neighbors = self.heuristic.permutation_1t(neighbor)
+                random.shuffle(neighbors)
+                print('RESTART -----------------------------------')
 
-
+        print(best_index)
+        print('Best result:',highest_finish)
         final_time = time.time()
+
+        print('Delta time:',final_time-start_time)
 
         with open('GRASP.csv', 'a') as f_object:
             writer_object = writer(f_object)
-            List = []
+            List = [data.name_data,len(data.dataframe.columns),len(list(data.dataframe.index)),best_index,final_time-start_time,highest_finish]
             print(List)
             writer_object.writerow(List)
-            f_object.close()    
+            f_object.close()
 
     # def genetic(self,n_solutions,alpha,parts,n_genetic_output,chance_of_mutation):
     #     start_time = time.time()
@@ -76,14 +92,11 @@ class Model():
 
 if __name__ == "__main__":
 
-    for data in ...:
-        for i in range(3):
+    for data in [CAR1()]:
+        for i in range(1):
             data = data
-            N_SOLUTIONS = 1 # number of vectors
-            ALPHA = 0.8 # proportion of 0s
-
             model = Model(data)
-            model.GRASP(n_solutions=N_SOLUTIONS,alpha=ALPHA)
+            model.GRASP()
 
 
     # model = Model(WEING1())

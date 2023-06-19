@@ -16,3 +16,4 @@ class Heuristic():
 if __name__ == "__main__":
     heuristic = Heuristic()
     print(heuristic.permutation_1t([1,2,3,4]))
+    
