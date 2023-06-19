@@ -2,6 +2,7 @@ import random
 from csv import writer
 import time
 import numpy as np
+import cv2
 
 from constructor import Constructor
 from heuristic import Heuristic
@@ -31,7 +32,8 @@ class Model():
             matrix = self.constructor.flow_shop_based_on_index_list(num_machines,df,neighbor)
             highest_finish = self.tools.evaluate(matrix)
             if highest_finish < best_result:
-                self.tools.create_graph(matrix)
+                img = self.tools.create_graph(matrix)
+                # cv2.imwrite('image.png', img)
                 best_index = neighbor.copy()
                 best_matrix = matrix.copy()
                 print(neighbor)
@@ -40,12 +42,13 @@ class Model():
                 random.shuffle(neighbors)
                 print('RESTART -----------------------------------')
 
+        cv2.imwrite('image.png', img)
         print(best_index)
         print('Best result:',best_result)
         final_time = time.time()
 
         print(best_matrix)
-        print(best_result),
+        print(best_result)
         print(best_index)
 
         with open('GRASP.csv', 'a') as f_object:
@@ -54,6 +57,7 @@ class Model():
             print(List)
             writer_object.writerow(List)
             f_object.close()
+
 
     # def genetic(self,n_solutions,alpha,parts,n_genetic_output,chance_of_mutation):
     #     start_time = time.time()
