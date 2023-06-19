@@ -170,6 +170,6 @@ class ABZ8(Data):
 if __name__ == "__main__":
 
     data = CAR1()
-    for i in data.dataframe.columns:
-        print(i)
-    
+    print(data.dataframe)
+    print('Num Col:', len(data.dataframe.columns))
+    print('List Index:', list(data.dataframe.index))
