@@ -31,7 +31,9 @@ class Model():
             matrix = self.constructor.flow_shop_based_on_index_list(num_machines,df,neighbor)
             highest_finish = self.tools.evaluate(matrix)
             if highest_finish < best_result:
+                self.tools.create_graph(matrix)
                 best_index = neighbor.copy()
+                best_matrix = matrix.copy()
                 print(neighbor)
                 best_result = highest_finish
                 neighbors = self.heuristic.permutation_1t(neighbor)
@@ -39,14 +41,16 @@ class Model():
                 print('RESTART -----------------------------------')
 
         print(best_index)
-        print('Best result:',highest_finish)
+        print('Best result:',best_result)
         final_time = time.time()
 
-        print('Delta time:',final_time-start_time)
+        print(best_matrix)
+        print(best_result),
+        print(best_index)
 
         with open('GRASP.csv', 'a') as f_object:
             writer_object = writer(f_object)
-            List = [data.name_data,len(data.dataframe.columns),len(list(data.dataframe.index)),best_index,final_time-start_time,highest_finish]
+            List = [data.name_data,len(data.dataframe.columns),len(list(data.dataframe.index)),best_index,final_time-start_time,best_result]
             print(List)
             writer_object.writerow(List)
             f_object.close()
