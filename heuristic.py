@@ -13,7 +13,14 @@ class Heuristic():
                 swaps.append(new_vector)
         return swaps
 
+    def permutation_all(self,list_index):
+        permutations = itertools.permutations(list_index)
+        return list(permutations)
+
 if __name__ == "__main__":
     heuristic = Heuristic()
-    print(heuristic.permutation_1t([1,2,3,4]))
-    
+    vector = [0,1,2,3,4,5,6,7,8,9]
+    permutations = heuristic.permutation_all(vector)
+    permutations_1t = heuristic.permutation_1t(vector)
+    # print(len(permutations_1t))
+    print(len(permutations))

@@ -60,16 +60,29 @@ class Tools():
         img = 255*img
         return img
 
-    def create_graph(self,matrix,limit_x):
+
+    def label_graph(self,img,columns):
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        fontScale = 2
+        thickness = 5
+        color = (0, 0, 0)
+
+        for i in range(len(columns)):
+            cv2.putText(img,'{}'.format(columns[i]),org=(50,50*i+100), fontFace=cv2.LINE_AA,fontScale=fontScale,thickness=thickness,color=color)
+        return img
+
+    def create_graph(self,matrix,limit_x,columns):
 
         img = self.blank_image(matrix,limit_x)
 
         for machine in range(len(matrix)):
             for item in range(len(matrix[machine])):
                 ind,start,finish = matrix[machine][item]
-                cv2.rectangle(img, (start+50, 50*machine + 50), (finish+50, 50*(machine+1) + 40), self.colors[ind], -1)
+                cv2.rectangle(img, (start+200, 50*machine + 50), (finish+200, 50*(machine+1) + 40), self.colors[ind], -1)
 
         # cv2.rectangle(img, (250, 100), (250 + 200, 100 + 50), self.colors[0], 2)
+
+        # img = self.label_graph(img,columns)
 
         img = cv2.resize(img, (1280,720), interpolation = cv2.INTER_AREA)
 
@@ -78,6 +91,8 @@ class Tools():
         cv2.destroyAllWindows()
 
         return img
+    
+
 
 
 # if __name__ == "__main__":
