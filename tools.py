@@ -25,11 +25,11 @@ class Tools():
             (128, 0, 128),    # Roxo escuro
             (128, 128, 0),    # Oliva
             (192, 192, 192),  # Prata
-            (255, 255, 255)   # Branco
+            (0, 0, 0)   # Preto
         ]
 
     # def check_constrains(self,used):
-    #     mult = np.multiply(self.rest,used)
+    #     mult = np.multiply(self.rest,used)1
     #     sum = np.sum(mult,axis=1)
     #     diff = self.capacities - sum
     #     if any(diff < 0):
@@ -50,26 +50,24 @@ class Tools():
                 highest_finish = finish
         return highest_finish
     
-    def blank_image(self,matrix):
+    def blank_image(self,matrix,limit_x):
         size_x = self.evaluate(matrix)
         size_y = len(matrix)
-        figure_size = (size_y * 50 + 100, size_x + 100, 3)
+        # figure_size = (size_y * 50 + 100, size_x + 100, 3)
+        figure_size = (size_y * 50 + 100, limit_x, 3)
         img = np.zeros(figure_size, dtype = np.uint8)
         img = np.ones(figure_size, dtype = np.uint8)
         img = 255*img
         return img
 
-    def create_graph(self,matrix):
-        # size_x = self.evaluate(matrix)
-        # size_y = len(matrix)
-        # (Y,X,COLORS)
+    def create_graph(self,matrix,limit_x):
 
-        img = self.blank_image(matrix)
+        img = self.blank_image(matrix,limit_x)
 
         for machine in range(len(matrix)):
             for item in range(len(matrix[machine])):
                 ind,start,finish = matrix[machine][item]
-                cv2.rectangle(img, (start+50, 50*machine + 50), (finish+50, 50*(machine+1) + 50), self.colors[ind], -1)
+                cv2.rectangle(img, (start+50, 50*machine + 50), (finish+50, 50*(machine+1) + 40), self.colors[ind], -1)
 
         # cv2.rectangle(img, (250, 100), (250 + 200, 100 + 50), self.colors[0], 2)
 
