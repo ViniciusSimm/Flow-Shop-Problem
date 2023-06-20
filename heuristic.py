@@ -19,7 +19,7 @@ class Heuristic():
 
 if __name__ == "__main__":
     heuristic = Heuristic()
-    vector = [0,1,2,3,4,5,6,7,8,9]
+    vector = [7, 4, 2, 0, 10, 5, 8, 3, 6, 1, 9]
     permutations = heuristic.permutation_all(vector)
     permutations_1t = heuristic.permutation_1t(vector)
     # print(len(permutations_1t))

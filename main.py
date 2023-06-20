@@ -9,7 +9,7 @@ from heuristic import Heuristic
 from tools import Tools
 
 from data import CAR1,CAR2,CAR3,CAR4,CAR5,CAR6
-from data import HEL1,HEL2
+from data import HEL1,HEL2,REC17
 
 
 class Model():
@@ -70,7 +70,7 @@ class Model():
 
 if __name__ == "__main__":
 
-    for data in [CAR1()]:
+    for data in [REC17()]:
         for i in range(1):
             data = data
             model = Model(data)
